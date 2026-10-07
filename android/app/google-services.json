@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "170036193539",
+    "project_id": "peronalapp",
+    "storage_bucket": "peronalapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170036193539:android:e33b9e66f67b01da496136",
+        "android_client_info": {
+          "package_name": "com.example.personalapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACwEqyLiPSmdsPXEvcRy_DuG4HLNM6hWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

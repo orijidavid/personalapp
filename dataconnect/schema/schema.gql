@@ -1,0 +1,32 @@
+type User @table {
+  email: String!
+  createdAt: Timestamp!
+  displayName: String
+}
+
+type Vault @table {
+  name: String!
+  user: User!
+}
+
+type Category @table {
+  label: String!
+  user: User!
+}
+
+type Credential @table {
+  siteName: String!
+  username: String!
+  encryptedPassword: String!
+  url: String!
+  notes: String
+  lastUpdated: Timestamp
+  vault: Vault!
+  category: Category
+}
+
+type AuditLog @table {
+  actionType: String!
+  timestamp: Timestamp!
+  credential: Credential!
+}

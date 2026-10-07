@@ -1,0 +1,148 @@
+mutation CreateUser @auth(level: USER) {
+  user_insert(data: {
+    id_expr: "auth.uid",
+    email_expr: "auth.token.email",
+    displayName: "New User",
+    createdAt_expr: "request.time"
+  })
+}
+
+mutation DeleteUser @auth(level: USER) {
+  user_delete(key: {id_expr: "auth.uid"})
+}
+
+mutation UpdateUser @auth(level: USER) {
+  user_update(key: {id_expr: "auth.uid"}, data: {displayName: "Updated Name"})
+}
+
+query GetUser @auth(level: USER) {
+  user(id: {id_expr: "auth.uid"}) {
+    email
+    displayName
+  }
+}
+
+query ListUsers @auth(level: USER) {
+  users {
+    email
+    displayName
+  }
+}
+
+mutation CreateVault @auth(level: USER) {
+  vault_insert(data: {
+    name: "My Vault",
+    userId_expr: "auth.uid"
+  })
+}
+
+mutation DeleteVault($id: UUID!) @auth(level: USER) {
+  vault_delete(key: {id: $id})
+}
+
+mutation UpdateVault($id: UUID!, $name: String!) @auth(level: USER) {
+  vault_update(key: {id: $id}, data: {name: $name})
+}
+
+query GetVault($id: UUID!) @auth(level: USER) {
+  vault(id: $id) {
+    name
+  }
+}
+
+query ListVaults @auth(level: USER) {
+  vaults(where: {userId: {eq_expr: "auth.uid"}}) {
+    name
+  }
+}
+
+mutation CreateCategory @auth(level: USER) {
+  category_insert(data: {
+    label: "Work",
+    userId_expr: "auth.uid"
+  })
+}
+
+mutation DeleteCategory($id: UUID!) @auth(level: USER) {
+  category_delete(key: {id: $id})
+}
+
+mutation UpdateCategory($id: UUID!, $label: String!) @auth(level: USER) {
+  category_update(key: {id: $id}, data: {label: $label})
+}
+
+query GetCategory($id: UUID!) @auth(level: USER) {
+  category(id: $id) {
+    label
+  }
+}
+
+query ListCategories @auth(level: USER) {
+  categories(where: {userId: {eq_expr: "auth.uid"}}) {
+    label
+  }
+}
+
+mutation CreateCredential($siteName: String!, $username: String!, $password: String!, $url: String!, $vaultId: UUID!, $categoryId: UUID) @auth(level: USER) {
+  credential_insert(data: {
+    siteName: $siteName,
+    username: $username,
+    encryptedPassword: $password,
+    url: $url,
+    vaultId: $vaultId,
+    categoryId: $categoryId,
+    lastUpdated_expr: "request.time"
+  })
+}
+
+mutation DeleteCredential($id: UUID!) @auth(level: USER) {
+  credential_delete(key: {id: $id})
+}
+
+mutation UpdateCredential($id: UUID!, $siteName: String!) @auth(level: USER) {
+  credential_update(key: {id: $id}, data: {siteName: $siteName, lastUpdated_expr: "request.time"})
+}
+
+query GetCredential($id: UUID!) @auth(level: USER) {
+  credential(id: $id) {
+    siteName
+    username
+  }
+}
+
+query ListCredentials @auth(level: USER) {
+  credentials(where: {vault: {userId: {eq_expr: "auth.uid"}}}) {
+    siteName
+    url
+  }
+}
+
+mutation CreateAuditLog($credentialId: UUID!, $action: String!) @auth(level: USER) {
+  auditLog_insert(data: {
+    credentialId: $credentialId,
+    actionType: $action,
+    timestamp_expr: "request.time"
+  })
+}
+
+mutation DeleteAuditLog($id: UUID!) @auth(level: USER) {
+  auditLog_delete(key: {id: $id})
+}
+
+mutation UpdateAuditLog($id: UUID!, $action: String!) @auth(level: USER) {
+  auditLog_update(key: {id: $id}, data: {actionType: $action})
+}
+
+query GetAuditLog($id: UUID!) @auth(level: USER) {
+  auditLog(id: $id) {
+    actionType
+    timestamp
+  }
+}
+
+query ListAuditLogs @auth(level: USER) {
+  auditLogs(where: {credential: {vault: {userId: {eq_expr: "auth.uid"}}}}) {
+    actionType
+    timestamp
+  }
+}
