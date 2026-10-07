@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:personalapp/register_screen.dart';
 import 'package:personalapp/services/auth_controller/auth_controller.dart';
+import 'package:personalapp/test_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -42,11 +43,11 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) return;
 
       // Login was successful.
-      if (result?.email != null) {
+      if (result != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const RegisterScreen(),
+            builder: (context) => const TestPage(),
           ),
         );
       }
