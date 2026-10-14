@@ -27,11 +27,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
           key: _formKey,
           child: Column(
             children: [
+              Text("Hello", style: TextStyle(
+                color: Colors.green,
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+              ),),
+              Text("Register with us here:", style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+              ),),
+
+              SizedBox(height: 50,),
+
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
+                decoration: const InputDecoration(
+                    labelText: 'Email',
+                    labelStyle: TextStyle(color: Colors.green),
+                    prefixIcon: Icon(Icons.email),
+                    prefixIconColor: Colors.green,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20),)
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    )
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -40,11 +60,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               ),
+
+             SizedBox(height: 20,),
+
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
                   labelText: 'Password',
-                  border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
+                    prefixIconColor: Colors.green,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10),),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                    )
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -53,6 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               ),
+
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
@@ -61,7 +92,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     regController.registerUser(_emailController.text, _passwordController.text);
                   }
                 },
-                child: Text('Register'),
+                child: Text('Register', style: TextStyle(
+                  color: Colors.green,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),),
               ),
             ],
           ),
