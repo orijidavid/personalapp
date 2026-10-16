@@ -11,6 +11,8 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
 
+  bool isLoading = false;
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -85,19 +87,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               SizedBox(height: 20),
+
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                onPressed: isLoading
+                    ? null
+                    : () async {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  try {
                     final RegController regController = RegController();
-                    regController.registerUser(_emailController.text, _passwordController.text);
+
+                    await regController.registerUser(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
+
+
+                  } catch (e) {
+                    debugPrint('Registration error: $e');
+                  } finally {
+                    if (mounted) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
                   }
                 },
-                child: Text('Register', style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),),
-              ),
+                child: isLoading
+                    ? const SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+                    : const Text(
+                  'Register',
+                  style: TextStyle(
+                    color: Colors.green,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+
             ],
           ),
         ),

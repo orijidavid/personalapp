@@ -7,8 +7,7 @@ class AuthController {
 
   Future<User?> login(String email, String password) async {
     try {
-      final UserCredential result =
-      await _auth.signInWithEmailAndPassword(
+      final UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );

@@ -12,13 +12,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  bool isLoading = false;
+
   // Create these ONCE and keep them for the lifetime of the State.
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   final AuthController _authController = AuthController();
+
+  get async => null;
 
 
   @override
@@ -173,18 +178,58 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _login,
+                    onPressed: isLoading ? null : () async {
+                      if(!_formKey.currentState!.validate()) {
+                        return;
+                    }
+
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    try {
+                      final AuthController authController = AuthController();
+                      await authController.login(
+                        _emailController.text,
+                        _passwordController.text,
+                    );
+                    _login();
+
+                  } catch (e) {
+                      debugPrint('Login error: $e');
+                    } finally {
+                        if (mounted) {
+                        setState(() {
+                        isLoading = false;
+                        });
+                      }
+                    }
+                  },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
-                    child: const Text('Login', style: TextStyle(
+                    child: isLoading
+                    ? const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
                       color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),),
+                    ),
+                  )
+                      : const Text(
+                  'Login',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
                   ),
                 ),
         
