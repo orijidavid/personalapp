@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personalapp/services/orders_history_page.dart';
 import 'package:personalapp/settings_page.dart';
 import 'custom_widgets/item_widget.dart';
 import 'model/items.dart';
@@ -67,6 +68,18 @@ class _TestPageState extends State<TestPage> {
 
       return;
     }
+
+    if (label == 'Orders History') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OrdersHistoryPage(),
+        ),
+      );
+
+      return;
+    }
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -163,7 +176,7 @@ class _TestPageState extends State<TestPage> {
                             ),
                             SizedBox(width: 4),
                             Text(
-                              'Naira: 20000',
+                              'Naira: 20,000',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
