@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:personalapp/services/orders_history_page.dart';
+import 'package:personalapp/services/payment_method_page.dart';
 import 'package:personalapp/settings_page.dart';
 import 'custom_widgets/item_widget.dart';
 import 'model/items.dart';
@@ -79,6 +80,18 @@ class _TestPageState extends State<TestPage> {
 
       return;
     }
+
+    if (label == 'Payment Method') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PaymentMethodPage(),
+        ),
+      );
+
+      return;
+    }
+
 
     Navigator.push(
       context,
