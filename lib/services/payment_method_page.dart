@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:personalapp/otp_screen.dart';
+import 'package:pinput/pinput.dart';
+import 'package:smart_auth/smart_auth.dart';
 
 class PaymentMethodPage extends StatefulWidget {
   const PaymentMethodPage({super.key});
@@ -10,6 +13,11 @@ class PaymentMethodPage extends StatefulWidget {
 
 class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
+  late final SmsRetriever smsRetriever;
+  late final TextEditingController pinController;
+  late final FocusNode focusNode;
+  late final GlobalKey<FormState> formKey;
+
   int num1 = 5000;
   int num2 = 750;
   int num3 = 100;
@@ -17,6 +25,10 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
   double get salesTax => 0.08 * (num1+num2+num3);
   double get shippingFee => 0.03 * (num1+num2+num3);
   double get total => subTotal+salesTax+shippingFee;
+
+  PinTheme? get defaultPinTheme => null;
+
+  Color? get focusedBorderColor => null;
 
 
 
@@ -285,7 +297,20 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
                   height: 50,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showModalBottomSheet<bool>(
+                        backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(5.0),
+                          ),
+                          context: context,
+                          isScrollControlled: true,
+                          useSafeArea: true,
+                          builder: (context) {
+                            return OtpScreen();
+                          }
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(

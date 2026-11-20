@@ -37,6 +37,8 @@ dependencies:
   firebase_auth: ^6.7.0
   firebase_database: ^12.6.0
   firebase_core: ^4.15.0
+  pinput: ^7.0.0
+  smart_auth: ^4.0.0
 
 
 dev_dependencies:
